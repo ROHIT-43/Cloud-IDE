@@ -41,6 +41,7 @@ io.on('connection', (socket) => {
     socket.emit('file:refresh')
 
     socket.on('file:change', async({ path, content}) => {
+        console.log(path);
         await fs.writeFile(`./user${path}`,content)
     })
 
@@ -48,6 +49,10 @@ io.on('connection', (socket) => {
         ptyProcess.write(data);
     })
 })
+
+app.get('/', (req, res) => {
+    res.send('Hello, World!');
+});
 
 app.get('/files', async(req, res) => {
     const fileTree = await generateFileTree('./user');
@@ -60,7 +65,7 @@ app.get('/files/content', async(req, res) => {
     return res.json({content})
 })
 
-server.listen(9000, () => console.log('Server Running'))
+server.listen(9000, '0.0.0.0', () => console.log('Server Running'))
 
 async function generateFileTree(directory) {
     const tree = {}

@@ -55,7 +55,7 @@ function App() {
           path: selectedFile,
           content: code
         });
-      }, 5 * 1000);
+      }, 1 * 1000);
       return () => {
         clearTimeout(timer);
       };
@@ -73,8 +73,11 @@ function App() {
           <FileTree onSelect = {(path) => setSelectedFile(path)} tree={fileTree}/>
         </div>
         <div className="editor">
-          {selectedFile && <p>{selectedFile.replaceAll('/', ' > ' )} {isSaved ? 'Saved' : 'UnSaved'}</p>}
+          {selectedFile && <p><strong>{selectedFile} {isSaved ? ' (Saved)' : ' (UnSaved)'}</strong></p>}
           <AceEditor
+            width='100%'
+            fontSize={18}
+            style={{ marginTop: '5px' }}
             value={code}
             onChange={(e) => setCode(e)}
           />
